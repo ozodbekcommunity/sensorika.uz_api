@@ -3,3 +3,5 @@ requests
 bs4
 lxml
 uvicorn
+jinja2
+python-multipart

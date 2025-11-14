@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Frilanserlar - Sensorika.uz{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Page Header -->
+    <div class="mb-4">
+        <h1 class="display-5">
+            <i class="fas fa-laptop-code text-success"></i>
+            Frilansingda Daromad Qiluvchilar
+        </h1>
+        <p class="lead text-muted">Xalqaro freelance platformalarida ishlovchi o'quvchilarimiz</p>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        <i class="fas fa-exclamation-triangle"></i> {{ error }}
+    </div>
+    {% endif %}
+
+    {% if freelancers %}
+    <!-- Freelancers Count -->
+    <div class="alert alert-success mb-4">
+        <i class="fas fa-info-circle"></i> Jami <strong>{{ freelancers|length }}</strong> ta frilanser topildi
+    </div>
+
+    <!-- Freelancers Grid -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for freelancer in freelancers %}
+        <div class="col">
+            <div class="card h-100 shadow-sm hover-card border-success">
+                {% if freelancer.image_url %}
+                <img src="{{ freelancer.image_url }}" class="card-img-top" alt="{{ freelancer.name }}" style="height: 280px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-success d-flex align-items-center justify-content-center" style="height: 280px;">
+                    <i class="fas fa-user-tie fa-5x text-white"></i>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-star text-warning"></i>
+                        {{ freelancer.name }}
+                    </h5>
+                    <p class="card-text text-muted">{{ freelancer.description[:120] }}...</p>
+
+                    <!-- Success Badge -->
+                    <div class="mt-3">
+                        <span class="badge bg-success">
+                            <i class="fas fa-check-circle"></i> Freelancer
+                        </span>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-grid">
+                        {% if freelancer.url %}
+                        <a href="/web/students/{{ freelancer.id }}?student_url={{ freelancer.url }}" class="btn btn-success">
+                            <i class="fas fa-info-circle"></i> Batafsil ma'lumot
+                        </a>
+                        {% else %}
+                        <button class="btn btn-secondary" disabled>Ma'lumot mavjud emas</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Info Box -->
+    <div class="alert alert-info mt-5">
+        <h5 class="alert-heading">
+            <i class="fas fa-lightbulb"></i> Frilansingda ishlash haqida
+        </h5>
+        <hr>
+        <p class="mb-0">
+            Bizning o'quvchilarimiz Upwork, Fiverr, Freelancer kabi xalqaro platformalarda muvaffaqiyatli ishlaydilar va
+            o'z bilimlarini amaliy loyihalarda qo'llaydilar. Ular bilan tanishing va motivatsiya oling!
+        </p>
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center py-5">
+        <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+        <h4>Frilanserlar topilmadi</h4>
+        <p class="mb-0">Hozircha ro'yxat bo'sh</p>
+    </div>
+    {% endif %}
+
+    <!-- Back to Home -->
+    <div class="text-center mt-5">
+        <a href="/web" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left"></i> Bosh sahifaga qaytish
+        </a>
+    </div>
+</div>
+{% endblock %}

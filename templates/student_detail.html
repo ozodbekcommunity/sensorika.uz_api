@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}{% if student %}{{ student.name }} - Sensorika.uz{% else %}O'quvchi - Sensorika.uz{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        <i class="fas fa-exclamation-triangle"></i> {{ error }}
+    </div>
+    <div class="text-center mt-4">
+        <a href="/web/students" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> O'quvchilar ro'yxatiga qaytish
+        </a>
+    </div>
+    {% elif student %}
+    <!-- Student Profile -->
+    <div class="row">
+        <!-- Left Column - Images -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow">
+                {% if student.images and student.images|length > 0 %}
+                <div id="studentCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for image in student.images %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                            <img src="{{ image }}" class="d-block w-100" alt="{{ student.name }}" style="height: 400px; object-fit: cover;">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if student.images|length > 1 %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#studentCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#studentCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 400px;">
+                    <i class="fas fa-user fa-10x text-white"></i>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right Column - Details -->
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h1 class="card-title mb-4">
+                        <i class="fas fa-user-graduate text-primary"></i>
+                        {{ student.name }}
+                    </h1>
+
+                    <!-- Student Details -->
+                    {% if student.details %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                                {% for key, value in student.details.items() %}
+                                <tr>
+                                    <th class="bg-light" style="width: 40%;">
+                                        <i class="fas fa-info-circle text-primary"></i>
+                                        {{ key.replace('_', ' ').title() }}
+                                    </th>
+                                    <td>{{ value }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+
+                    <!-- Freelance Platform -->
+                    {% if student.freelance_platform %}
+                    <div class="alert alert-success mt-4">
+                        <h5 class="alert-heading">
+                            <i class="fas fa-laptop-code"></i> Freelance Platforma
+                        </h5>
+                        <hr>
+                        <a href="{{ student.freelance_platform }}" target="_blank" class="btn btn-success">
+                            <i class="fas fa-external-link-alt"></i> Profilni ko'rish
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    <!-- Source Link -->
+                    {% if student.source_url %}
+                    <div class="mt-4">
+                        <a href="{{ student.source_url }}" target="_blank" class="btn btn-outline-primary">
+                            <i class="fas fa-external-link-alt"></i> Asl manbani ko'rish
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Back Button -->
+            <div class="mt-4">
+                <a href="/web/students" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> O'quvchilar ro'yxatiga qaytish
+                </a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center py-5">
+        <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+        <h4>O'quvchi topilmadi</h4>
+        <p class="mb-0">Kechirasiz, bu o'quvchi haqida ma'lumot mavjud emas</p>
+    </div>
+    <div class="text-center mt-4">
+        <a href="/web/students" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> O'quvchilar ro'yxatiga qaytish
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
