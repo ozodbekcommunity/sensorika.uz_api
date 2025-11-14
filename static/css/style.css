@@ -1,0 +1,188 @@
+/* Custom Styles for Sensorika.uz */
+
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Navbar Styles */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-brand i {
+    font-size: 1.8rem;
+}
+
+.navbar-nav .nav-link {
+    margin: 0 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    transform: translateY(-2px);
+}
+
+/* Card Hover Effects */
+.hover-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.hover-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Jumbotron/Hero Section */
+.jumbotron {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.jumbotron h1 {
+    color: white;
+}
+
+.jumbotron .lead {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.jumbotron hr {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.jumbotron p {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Card Image Styling */
+.card-img-top {
+    border-bottom: 3px solid #f8f9fa;
+}
+
+/* Section Titles */
+h2 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+}
+
+/* Button Hover Effects */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Alert Styling */
+.alert {
+    border-radius: 10px;
+}
+
+/* Article Content */
+.article-content {
+    line-height: 1.8;
+    font-size: 1.05rem;
+}
+
+.article-content .bg-light {
+    border-left: 4px solid #17a2b8;
+}
+
+/* Table Styling */
+.table th {
+    font-weight: 600;
+}
+
+/* Carousel Controls */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    height: 50px;
+    margin: auto;
+}
+
+/* Badge Styling */
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .jumbotron h1 {
+        font-size: 2rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .card-img-top,
+    .card-img-top.bg-secondary,
+    .card-img-top.bg-info,
+    .card-img-top.bg-success {
+        height: 200px !important;
+    }
+}
+
+/* Loading Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Gradient Text */
+.gradient-text {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

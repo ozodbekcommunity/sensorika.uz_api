@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Bosh sahifa - Sensorika.uz{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <div class="jumbotron bg-light p-5 rounded-3 mb-5">
+        <h1 class="display-4">
+            <i class="fas fa-graduation-cap text-primary"></i>
+            Sensorika.uz ga xush kelibsiz!
+        </h1>
+        <p class="lead">IT ta'lim markazi o'quvchilari, yangiliklari va freelancer dasturchilar haqida ma'lumotlar.</p>
+        <hr class="my-4">
+        <p>Bu platformada siz top o'quvchilar, bitiruvchilar, yangiliklar va frilansingda ishlovchi o'quvchilar haqida ma'lumot olishingiz mumkin.</p>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        <i class="fas fa-exclamation-triangle"></i> {{ error }}
+    </div>
+    {% endif %}
+
+    <!-- TOP O'quvchilar -->
+    <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-star text-warning"></i> Top O'quvchilar</h2>
+            <a href="/web/students" class="btn btn-primary">
+                Barchasini ko'rish <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        {% if students %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for student in students %}
+            <div class="col">
+                <div class="card h-100 shadow-sm hover-card">
+                    {% if student.image_url %}
+                    <img src="{{ student.image_url }}" class="card-img-top" alt="{{ student.name }}" style="height: 250px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 250px;">
+                        <i class="fas fa-user fa-5x text-white"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ student.name }}</h5>
+                        <p class="card-text text-muted">{{ student.description[:100] }}...</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        {% if student.url %}
+                        <a href="/web/students/{{ student.id }}?student_url={{ student.url }}" class="btn btn-sm btn-outline-primary w-100">
+                            <i class="fas fa-info-circle"></i> Batafsil
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Hozircha o'quvchilar mavjud emas.
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Yangiliklar -->
+    <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-newspaper text-info"></i> So'nggi Yangiliklar</h2>
+            <a href="/web/news" class="btn btn-info text-white">
+                Barchasini ko'rish <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        {% if news %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for article in news %}
+            <div class="col">
+                <div class="card h-100 shadow-sm hover-card">
+                    {% if article.image_url %}
+                    <img src="{{ article.image_url }}" class="card-img-top" alt="{{ article.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-info d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="fas fa-newspaper fa-5x text-white"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ article.title[:60] }}...</h5>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        {% if article.url %}
+                        <a href="/web/news/{{ article.id }}?news_url={{ article.url }}" class="btn btn-sm btn-outline-info w-100">
+                            <i class="fas fa-book-open"></i> O'qish
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Hozircha yangiliklar mavjud emas.
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Frilanserlar -->
+    <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-laptop-code text-success"></i> Frilansingda ishlovchilar</h2>
+            <a href="/web/freelancers" class="btn btn-success">
+                Barchasini ko'rish <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        {% if freelancers %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for freelancer in freelancers %}
+            <div class="col">
+                <div class="card h-100 shadow-sm hover-card">
+                    {% if freelancer.image_url %}
+                    <img src="{{ freelancer.image_url }}" class="card-img-top" alt="{{ freelancer.name }}" style="height: 250px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-success d-flex align-items-center justify-content-center" style="height: 250px;">
+                        <i class="fas fa-user-tie fa-5x text-white"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ freelancer.name }}</h5>
+                        <p class="card-text text-muted">{{ freelancer.description[:100] }}...</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        {% if freelancer.url %}
+                        <a href="/web/students/{{ freelancer.id }}?student_url={{ freelancer.url }}" class="btn btn-sm btn-outline-success w-100">
+                            <i class="fas fa-info-circle"></i> Batafsil
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Hozircha frilanserlar mavjud emas.
+        </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

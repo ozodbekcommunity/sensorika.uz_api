@@ -2,8 +2,12 @@
 
 import requests
 from bs4 import BeautifulSoup
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from typing import List, Dict, Any, Optional
+from pathlib import Path
 
 # --- Ilovalarni o'rnatish uchun ---
 # pip install fastapi uvicorn requests beautifulsoup4 lxml
@@ -13,6 +17,10 @@ app = FastAPI(
     description="Sensorika.uz saytidan o'quvchilar, yangiliklar va frilanserlar haqida ma'lumotlarni olish uchun API.",
     version="1.0.0",
 )
+
+# Static files va templates sozlamasi
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 BASE_URL = "https://sensorika.uz"
 
@@ -213,6 +221,110 @@ def get_freelancers() -> List[Dict[str, Any]]:
         raise HTTPException(status_code=404, detail="Hech qanday frilanser topilmadi.")
         
     return freelancers
+
+# --- Web Sahifalar (HTML) ---
+
+@app.get("/web", response_class=HTMLResponse, tags=["Web Sahifalar"])
+async def web_home(request: Request):
+    """Bosh sahifa - barcha bo'limlarni ko'rsatadi."""
+    try:
+        students = get_all_students()
+        news = get_all_news()
+        freelancers = get_freelancers()
+        return templates.TemplateResponse("index.html", {
+            "request": request,
+            "students": students[:6],  # Faqat 6 ta ko'rsatish
+            "news": news[:6],
+            "freelancers": freelancers[:6]
+        })
+    except HTTPException:
+        return templates.TemplateResponse("index.html", {
+            "request": request,
+            "students": [],
+            "news": [],
+            "freelancers": [],
+            "error": "Ma'lumotlarni yuklashda xatolik yuz berdi."
+        })
+
+@app.get("/web/students", response_class=HTMLResponse, tags=["Web Sahifalar"])
+async def web_students(request: Request):
+    """Barcha o'quvchilar ro'yxati."""
+    try:
+        students = get_all_students()
+        return templates.TemplateResponse("students.html", {
+            "request": request,
+            "students": students
+        })
+    except HTTPException as e:
+        return templates.TemplateResponse("students.html", {
+            "request": request,
+            "students": [],
+            "error": str(e.detail)
+        })
+
+@app.get("/web/students/{student_id}", response_class=HTMLResponse, tags=["Web Sahifalar"])
+async def web_student_detail(request: Request, student_id: int, student_url: str):
+    """O'quvchining batafsil ma'lumotlari."""
+    try:
+        student = get_student_by_id(student_id, student_url)
+        return templates.TemplateResponse("student_detail.html", {
+            "request": request,
+            "student": student
+        })
+    except HTTPException as e:
+        return templates.TemplateResponse("student_detail.html", {
+            "request": request,
+            "student": None,
+            "error": str(e.detail)
+        })
+
+@app.get("/web/news", response_class=HTMLResponse, tags=["Web Sahifalar"])
+async def web_news(request: Request):
+    """Barcha yangiliklar ro'yxati."""
+    try:
+        news = get_all_news()
+        return templates.TemplateResponse("news.html", {
+            "request": request,
+            "news": news
+        })
+    except HTTPException as e:
+        return templates.TemplateResponse("news.html", {
+            "request": request,
+            "news": [],
+            "error": str(e.detail)
+        })
+
+@app.get("/web/news/{news_id}", response_class=HTMLResponse, tags=["Web Sahifalar"])
+async def web_news_detail(request: Request, news_id: int, news_url: str):
+    """Yangilikning batafsil ma'lumotlari."""
+    try:
+        news_item = get_news_by_id(news_id, news_url)
+        return templates.TemplateResponse("news_detail.html", {
+            "request": request,
+            "news": news_item
+        })
+    except HTTPException as e:
+        return templates.TemplateResponse("news_detail.html", {
+            "request": request,
+            "news": None,
+            "error": str(e.detail)
+        })
+
+@app.get("/web/freelancers", response_class=HTMLResponse, tags=["Web Sahifalar"])
+async def web_freelancers(request: Request):
+    """Barcha frilanserlar ro'yxati."""
+    try:
+        freelancers = get_freelancers()
+        return templates.TemplateResponse("freelancers.html", {
+            "request": request,
+            "freelancers": freelancers
+        })
+    except HTTPException as e:
+        return templates.TemplateResponse("freelancers.html", {
+            "request": request,
+            "freelancers": [],
+            "error": str(e.detail)
+        })
 
 # --- Ilovani ishga tushirish uchun ---
 # Terminalda quyidagi buyruqni yozing:
